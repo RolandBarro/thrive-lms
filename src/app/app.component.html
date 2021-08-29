@@ -1,13 +1,72 @@
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
+<!-- table implementation here -->
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID #</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact #</th>
+        <th scope="col">
+          <button class="btn btn-primary" (click)="addUser(userForm)">Add</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">100{{ i }}</th>
+        <td>{{ user.fullName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.contactNumber }}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<ng-template #template>
+<!-- add new / edit existing user dialog -->
+<ng-template #userForm let-modal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <h4 class="modal-title" id="modal-basic-title">Add New User</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    This is a modal.
+    <form>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <div class="input-group">
+          <input type="text" id="fullName" class="form-control"
+            placeholder="Full Name"
+            name="fullName"
+            [(ngModel)]="user.fullName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-group">
+          <input type="email" id="email" class="form-control"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="user.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contactNumber">Contact Number</label>
+        <div class="input-group">
+          <input type="text" id="contactNumber" class="form-control"
+            placeholder="Contact Number"
+            name="contactNumber"
+            [(ngModel)]="user.contactNumber">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onBtnClick('save')">Save</button>
   </div>
 </ng-template>
+
+<!-- delete user dialog -->
+
