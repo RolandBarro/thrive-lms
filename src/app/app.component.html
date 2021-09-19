@@ -1,72 +1,23 @@
-<!-- table implementation here -->
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID #</th>
-        <th scope="col">Full Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Contact #</th>
-        <th scope="col">
-          <button class="btn btn-primary" (click)="addUser(userForm)">Add</button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index">
-        <th scope="row">100{{ i }}</th>
-        <td>{{ user.fullName }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.contactNumber }}</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<div>
+  <!-- table implementation here -->
+  <app-user-list [users]="users" (eventAction)="onEventAction($event, deleteDialog)"></app-user-list>
+
+  <!-- add new / edit existing user dialog -->
+
+
+  <!-- delete user dialog -->
+  <ng-template #deleteDialog let-modal>
+    <div>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><span class="text-capitalize">Do you want to delete this record?</span></h4>
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="onDeleteAction('delete')">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteAction('cancel')">Cancel</button>
+      </div>
+    </div>
+  </ng-template>
 </div>
-
-<!-- add new / edit existing user dialog -->
-<ng-template #userForm let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add New User</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="fullName">Full Name</label>
-        <div class="input-group">
-          <input type="text" id="fullName" class="form-control"
-            placeholder="Full Name"
-            name="fullName"
-            [(ngModel)]="user.fullName">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <div class="input-group">
-          <input type="email" id="email" class="form-control"
-            placeholder="Email"
-            name="email"
-            [(ngModel)]="user.email">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="contactNumber">Contact Number</label>
-        <div class="input-group">
-          <input type="text" id="contactNumber" class="form-control"
-            placeholder="Contact Number"
-            name="contactNumber"
-            [(ngModel)]="user.contactNumber">
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="onBtnClick('save')">Save</button>
-  </div>
-</ng-template>
-
-<!-- delete user dialog -->
-

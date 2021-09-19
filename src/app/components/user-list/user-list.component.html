@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>User List</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID #</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Contact #</th>
+          <th scope="col">
+            <button class="btn btn-primary" (click)="onClickEvent('add')">Add</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.contactNumber }}</td>
+          <td>
+            <button class="btn btn-warning" (click)="onClickEvent('edit', i)">Edit</button>
+            <button class="btn btn-danger" (click)="onClickEvent('delete', i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
