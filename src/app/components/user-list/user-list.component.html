@@ -14,12 +14,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of users; let i = index">
-          <th scope="row">100{{ i }}</th>
+          <th scope="row">{{ user.id }}</th>
           <td>{{ user.fullName }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.contactNumber }}</td>
           <td>
             <button class="btn btn-warning" (click)="onClickEvent('edit', i)">Edit</button>
+            <button class="btn btn-danger" (click)="onClickEvent('delete', i)">Delete</button>
           </td>
         </tr>
       </tbody>

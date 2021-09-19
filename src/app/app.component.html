@@ -1,9 +1,23 @@
 <div>
   <!-- table implementation here -->
-  <app-user-list [users]="users" (eventAction)="onEventAction($event)"></app-user-list>
+  <app-user-list [users]="users" (eventAction)="onEventAction($event, deleteDialog)"></app-user-list>
 
   <!-- add new / edit existing user dialog -->
 
 
   <!-- delete user dialog -->
+  <ng-template #deleteDialog let-modal>
+    <div>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><span class="text-capitalize">Do you want to delete this record?</span></h4>
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="onDeleteAction('delete')">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteAction('cancel')">Cancel</button>
+      </div>
+    </div>
+  </ng-template>
 </div>

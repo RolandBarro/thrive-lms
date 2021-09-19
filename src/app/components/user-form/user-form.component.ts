@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-user-form',
@@ -11,13 +12,19 @@ export class UserFormComponent implements OnInit {
   @Input() user: any = {};
   @Output() saveUser = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(
+    private bsModalRef: BsModalRef,
+  ) { }
 
   ngOnInit(): void {
   }
 
   onBtnClick(action: string) {
     this.saveUser.emit(this.user)
+  }
+
+  closeForm() {
+    this.bsModalRef.hide();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UserFormComponent } from './components/user-form/user-form.component';
@@ -13,8 +13,13 @@ import { User } from './models/user.model';
 export class AppComponent {
   modalRef: BsModalRef = new BsModalRef();
 
+  // @ViewChild('deleteDialog') deleteDialog: BsModalRef = new BsModalRef();
+  deleteDialog: BsModalRef = new BsModalRef();
+  selectedIndex: number | null = null;
+
   // TODO: do not duplicate code
   user: User = {
+    id: '',
     fullName: '',
     email: '',
     contactNumber: '',
@@ -22,33 +27,40 @@ export class AppComponent {
 
   // public
   users: User[] = [
-    { fullName: 'The User', email: 'the@email.com', contactNumber: '+639281313121' }
+    { id: '1001', fullName: 'The User', email: 'the@email.com', contactNumber: '+693928312346' }
   ];
 
   // private
 
   constructor(private modalService: BsModalService) {}
 
-  onEventAction(data: any) {
+  onEventAction(data: any, template: TemplateRef<any>) {
     const { event, index } = data;
 
     if (event === 'add') {
       this.modalRef = this.modalService.show(UserFormComponent);
       this.modalRef.content.saveUser
         .subscribe((data: any) => {
-          this.users.push(data);
+          const length = this.users.length;
+          this.users.push({ id: `100${length + 1}`, ...data });
           this.modalRef.hide();
         });
     } else if (event === 'edit') {
       this.modalRef = this.modalService.show(UserFormComponent);
       this.modalRef.content.methodType = event;
 
-      this.modalRef.content.user = this.users[index];
+      console.log('this.users: ', this.users)
+      console.log('index: ', index);
+
+      this.modalRef.content.user = { ...this.users[index] };
       this.modalRef.content.saveUser
         .subscribe((data: any) => {
-          this.users[index] = data;
+          this.users[index] = { ...data };
           this.modalRef.hide();
         });
+    } else if (event === 'delete') {
+      this.selectedIndex = index;
+      this.deleteDialog = this.modalService.show(template);
     }
   }
 
@@ -68,6 +80,7 @@ export class AppComponent {
 
   clear() {
     this.user = {
+      id: '',
       fullName: '',
       email: '',
       contactNumber: '',
@@ -76,5 +89,15 @@ export class AppComponent {
 
   onSaveUser(event: any) {
     console.log('onSaveUser: ', event);
+  }
+
+  onDeleteAction(action: string) {
+    console.log('action: ', action);
+    if (action === 'cancel') {
+      this.deleteDialog.hide();
+    } else if (action === 'delete') {
+      this.users = this.users.filter((user, i) => i !== this.selectedIndex);
+      this.deleteDialog.hide();
+    }
   }
 }
