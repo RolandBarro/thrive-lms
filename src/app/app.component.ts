@@ -1,6 +1,7 @@
 import { Component, TemplateRef } from '@angular/core';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { UserFormComponent } from './components/user-form/user-form.component';
 import { User } from './models/user.model';
 
 
@@ -28,8 +29,27 @@ export class AppComponent {
 
   constructor(private modalService: BsModalService) {}
 
-  addUser(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  onEventAction(data: any) {
+    const { event, index } = data;
+
+    if (event === 'add') {
+      this.modalRef = this.modalService.show(UserFormComponent);
+      this.modalRef.content.saveUser
+        .subscribe((data: any) => {
+          this.users.push(data);
+          this.modalRef.hide();
+        });
+    } else if (event === 'edit') {
+      this.modalRef = this.modalService.show(UserFormComponent);
+      this.modalRef.content.methodType = event;
+
+      this.modalRef.content.user = this.users[index];
+      this.modalRef.content.saveUser
+        .subscribe((data: any) => {
+          this.users[index] = data;
+          this.modalRef.hide();
+        });
+    }
   }
 
   onBtnClick(action: string) {
@@ -52,5 +72,9 @@ export class AppComponent {
       email: '',
       contactNumber: '',
     }
+  }
+
+  onSaveUser(event: any) {
+    console.log('onSaveUser: ', event);
   }
 }
